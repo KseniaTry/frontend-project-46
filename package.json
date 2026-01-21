@@ -11,9 +11,9 @@
     "url": "git+https://github.com/KseniaTry/frontend-project-46.git"
   },
   "license": "ISC",
-  "author": "",
+  "author": "Ksenia Tryapitsyna",
   "type": "module",
-  "main": "index.js",
+  "main": "gendiff.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
