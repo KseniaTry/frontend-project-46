@@ -1,4 +1,5 @@
 import { Command } from 'commander';
+import parseData from './parse.js';
 
 const program = new Command();
 
@@ -16,9 +17,11 @@ program
   .version('0.0.0')
   .arguments('[filePath1> <filePath2]')
   .option('-f, --format [type]', 'output format')
-  .action(() => {
+  .action((filePath1, filePath2) => {
     const options = program.opts();
     changeFormat(options.format);
+    parseData(filePath1)
+    parseData(filePath2)
   });
 
 program.parse(process.argv);
