@@ -10,7 +10,6 @@ const parseData = (filePath) => {
     const normalizedPath = normalizeFilePath(filePath)
     const fileType = getFileType(filePath)
     const data = readFileSync((normalizedPath), 'utf8')
-    console.log(fileType)
     let parsedData
 
     switch (fileType) {
@@ -24,8 +23,7 @@ const parseData = (filePath) => {
             parsedData = JSON.parse(data)
             break
     }
-    console.log(parsedData)
-    return parseData
+    return parsedData
 }
 
 export default parseData
