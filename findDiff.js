@@ -1,5 +1,8 @@
+import parseData from "./parse"
 
-function genDiff(data1, data2) {
+function genDiff(filePath1, filePath2) {
+    const data1 = parseData(filePath1)
+    const data2 = parseData(filePath2)
     // проверка одинаковые ли ключи
     const areKeysSimilar = (el, data) => {
         const [key] = el
@@ -50,4 +53,4 @@ function genDiff(data1, data2) {
     return result
 }
 
-export default genDiff
+export { genDiff }
