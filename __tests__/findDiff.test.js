@@ -1,21 +1,11 @@
-import genDiff from "../findDiff.js"
+import { genDiff } from "../findDiff.js"
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import path from 'path';
+// import { readFileSync } from 'fs';
 
-const data1 = {
-    "host": "hexlet.io",
-    "timeout": 50,
-    "proxy": "123.234.53.22",
-    "follow": false,
-    "type": 'module',
-    "version": "1.0.0",
-}
-
-const data2 = {
-    "timeout": 20,
-    "verbose": true,
-    "host": "hexlet.io",
-    "type": 'module',
-    "version": "3.6.7",
-}
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const result = {
     "- follow": false,
@@ -23,12 +13,17 @@ const result = {
     "- proxy": '123.234.53.22',
     "- timeout": 50,
     "+ timeout": 20,
-    "  type": 'module',
-    "+ verbose": true,
-    "- version": "1.0.0",
-    "+ version": "3.6.7",
+    "+ verbose": true
 }
 
+// console.log(__dirname)
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const file1 = getFixturePath('file1.json')
+const file2 = getFixturePath('file2.json')
+// const result = getFixturePath('result.txt')
+// const resultData = readFileSync(result, 'utf8')
+// console.log(file1)
+
 test('test simple json files find diffs', () => {
-    expect(genDiff(data1, data2)).toEqual(result)
+    expect(genDiff(file1, file2)).toEqual(result)
 })
