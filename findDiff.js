@@ -1,4 +1,4 @@
-import parseData from "./parse"
+import parseData from "./parse.js"
 
 function genDiff(filePath1, filePath2) {
     const data1 = parseData(filePath1)
@@ -49,7 +49,7 @@ function genDiff(filePath1, filePath2) {
             newEl[newKey] = value
             return { ...acc, ...newEl }
         }, {})
-    // console.log(result)
+    console.log(result)
     return result
 }
 
