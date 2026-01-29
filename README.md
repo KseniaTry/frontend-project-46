@@ -4,3 +4,9 @@
 [![test-gendiff](https://github.com/KseniaTry/frontend-project-46/actions/workflows/tests.yml/badge.svg)](https://github.com/KseniaTry/frontend-project-46/actions/workflows/tests.yml)
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=KseniaTry_frontend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=KseniaTry_frontend-project-46)
+
+Пример работы пакета на файлах .yaml:  
+https://asciinema.org/a/DUUovf2RXtPp3Fq8
+
+Пример работы пакета на файлах .json:  
+https://asciinema.org/a/SOhfa4T6kGEjq53j
