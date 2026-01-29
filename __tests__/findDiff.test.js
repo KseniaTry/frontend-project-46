@@ -16,14 +16,16 @@ const result = {
     "+ verbose": true
 }
 
-// console.log(__dirname)
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const file1 = getFixturePath('file1.json')
-const file2 = getFixturePath('file2.json')
-// const result = getFixturePath('result.txt')
-// const resultData = readFileSync(result, 'utf8')
-// console.log(file1)
+const fileJson1 = getFixturePath('file1.json')
+const fileJson2 = getFixturePath('file2.json')
+const fileYaml1 = getFixturePath('file1.yaml')
+const fileYaml2 = getFixturePath('file2.yaml')
 
 test('test simple json files find diffs', () => {
-    expect(genDiff(file1, file2)).toEqual(result)
+    expect(genDiff(fileJson1, fileJson2)).toEqual(result)
+})
+
+test('test simple yaml files find diffs', () => {
+    expect(genDiff(fileYaml1, fileYaml2)).toEqual(result)
 })
