@@ -1,5 +1,6 @@
 import { Command } from 'commander';
-import { genDiff } from './findDiff.js';
+import { genDiff } from './compare.js';
+import parseData from './parsers.js';
 
 const program = new Command();
 
@@ -20,7 +21,9 @@ program
   .action((filePath1, filePath2) => {
     const options = program.opts();
     changeFormat(options.format);
-    genDiff(filePath1, filePath2)
+    const data1 = parseData(filePath1)
+    const data2 = parseData(filePath2)
+    console.log(genDiff(data1, data2))
   });
 
 program.parse(process.argv);
