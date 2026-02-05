@@ -1,4 +1,4 @@
-import { genDiff } from "../findDiff.js"
+import { genDiff } from "../compare.js"
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'path';
@@ -7,21 +7,23 @@ import path from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const result = {
-    "- follow": false,
-    "  host": 'hexlet.io',
-    "- proxy": '123.234.53.22',
-    "- timeout": 50,
-    "+ timeout": 20,
-    "+ verbose": true
-}
+const result = `{
+  - follow: false,
+    host: 'hexlet.io',
+  - proxy: '123.234.53.22',
+  - timeout: 50,
+  + timeout: 20,
+  + verbose: true
+}`
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+
 const fileJson1 = getFixturePath('file1.json')
 const fileJson2 = getFixturePath('file2.json')
 const fileYaml1 = getFixturePath('file1.yaml')
 const fileYaml2 = getFixturePath('file2.yaml')
-
+// const result = readFileSync(getFixturePath('result.txt'))
+// console.log(result)
 test('test simple json files find diffs', () => {
     expect(genDiff(fileJson1, fileJson2)).toEqual(result)
 })
