@@ -1,4 +1,4 @@
-
+import { formatDiff } from "./format.js"
 // Создаем дерево изменений, где содержатся следующие данные:
 // - Ключи — имена ключей.
 // - Значения — объекты с полями:
@@ -30,7 +30,11 @@ function isObject(data) {
 }
 
 // генерируем дерево изменений
-function genDiff(data1, data2) {
+function getDiff(data1, data2) {
+
+    if (!isObject(data1) || !isObject(data2)) {
+        return null
+    }
     const allKeys = Array.from(new Set([...Object.keys(data1), ...Object.keys(data2)]))
 
     const node = allKeys.map((key) => {
@@ -55,7 +59,7 @@ function genDiff(data1, data2) {
             }
 
             if (isObject(valueFromData1) && isObject(valueFromData2)) {
-                children = genDiff(valueFromData1, valueFromData2)
+                children = getDiff(valueFromData1, valueFromData2)
                 status = 'changed' // без знака
             }
 
@@ -101,9 +105,22 @@ function genDiff(data1, data2) {
         }
     })
 
-    return node
+    return node.sort((a, b) => a.key.localeCompare(b.key));
 }
 
+
+function genDiff(data1, data2, format) {
+    const diffsNode = getDiff(data1, data2)
+    let formattedDiff
+
+    switch (format) {
+        case 'stylish':
+            formattedDiff = formatDiff(diffsNode)
+            break;
+    }
+
+    return formattedDiff
+}
 
 
 export { genDiff }
