@@ -1,180 +1,107 @@
 
+// Создаем дерево изменений, где содержатся следующие данные:
+// - Ключи — имена ключей.
+// - Значения — объекты с полями:
+//      status ('unchanged' (без знака), 'added' (знак +), 'removed' (знак -), 'changed' (без знака, так как есть children и знаки внутри дочерних элементов))
+//      value (новое значение)
+//      oldValue (старое значение, если есть)
+//      children (для вложенных объектов если есть, если нет, то поле отсутствует)
 
-const stringify = (data, separator = ' ', repeatCount = 1) => {
-    if (typeof separator === 'undefined') separator = '';
-    if (typeof repeatCount === 'undefined') repeatCount = 0;
-
-    if (typeof data !== 'object' || data === null) {
-        return data.toString();
-    }
-
-    const result = Object.entries(data).map(([key, value]) => {
-        const indent = separator.repeat(repeatCount);
-        const innerIndent = separator.repeat(repeatCount + 4);
-        if (typeof value === 'object' && value !== null) {
-            // Обработка вложенного объекта
-            return `${indent}${key}: {`
-                + `\n${stringify(value, separator, repeatCount + 4)}`
-                + `\n${innerIndent}}`
-        } else {
-            // Простое значение
-            return `${indent}${key}: ${value}`;
+// добавление статуса uncganged, чтобы отобразить пробелы (без знака) перед ключом
+const addUnchangedStatus = (data) => {
+    const modifiedData = Object.entries(data).map(([key, value]) => {
+        if (isObject(value)) {
+            value = addUnchangedStatus(value)
         }
-    });
 
-    return result.join('\n')
-};
+        return {
+            key,
+            newValue: value,
+            status: 'unchanged'
+        }
 
-// const stringify = (data, separator = ' ', repeatCount = 0) => {
-//     const innerContent = stringify1(data, separator, repeatCount);
-//     // Вырезаем 1 уровень отступа, чтобы открыть и закрыть
-//     return `{\n${innerContent}\n}`;
-// };
+    })
+    return modifiedData
+}
 
+// проверка являются ли объектом данные
+function isObject(data) {
+    return data !== null && typeof data === 'object' && !Array.isArray(data);
+}
+
+// генерируем дерево изменений
 function genDiff(data1, data2) {
-    // проверка одинаковые ли ключи
-    const areKeysSimilar = (el, data) => {
-        const [key] = el
-        return data[key]
-    }
-    // проверка одинаковые ли значения у одинаковых ключей
-    const areValuesSimilar = (el, data) => {
-        const [key, value] = el
-        return data[key] === value
-    }
-    // проверка, является ли объектом значение если ключ одинаковый
-    const areBothValuesObject = (data1, data2) => {
-        return typeof data1 === 'object' && typeof data2 === 'object'
-    }
+    const allKeys = Array.from(new Set([...Object.keys(data1), ...Object.keys(data2)]))
 
-    const whichValueIsObject = (data1, data2) => {
-        if (typeof data1 === "object" && typeof data2 !== 'object') {
-            return data1
-        }
+    const node = allKeys.map((key) => {
+        const keyInData1 = key in data1
+        const keyInData2 = key in data2
+        let status
+        let oldValue
+        let newValue
+        let children
 
-        if (typeof data2 === "object" && typeof data2 !== 'object') {
-            return data2
-        }
+        if (keyInData1 === keyInData2) {
+            const valueFromData1 = data1[key] === "" ? " " : data1[key]
+            const valueFromData2 = data2[key] === "" ? " " : data2[key]
 
-        return false
-    }
-
-    const addSpaces = (data) => {
-        if (typeof data !== 'object' || data === null) {
-            // Если данные не являются объектом, возвращаем их как есть
-            return data;
-        }
-
-        // Обработка каждого ключа и значения объекта
-        const result = Object.entries(data).reduce((acc, [key, value]) => {
-            const newKey = ` ${key}`
-            if (typeof value === 'object' && value !== null) {
-                // Если значение — объект, вызываем рекурсию
-                const nested = addSpaces(value);
-                acc[newKey] = nested
-                // return { [`${key}`]: nested }; // добавляем пробел
-            } else {
-                // Для примитивных значений создаем массив с пробелом
-                // return { [`${key}`]: value };
-                acc[newKey] = value
-            }
-            return acc
-        }, {});
-
-        return result;
-    };
-
-    let modifiedData = []
-
-    modifiedData = Object.entries(data1).reduce((acc, el) => {
-        const [key, value] = el
-        // если ключи одинаковые 
-        if (areKeysSimilar(el, data2)) {
-            // если значение у двух файлов являются объектами, то сравниваем объекты с помощью рекурсии
-            if (areBothValuesObject(value, data2[key])) {
-                const res = genDiff(value, data2[key])
-                const newEl = [key, res, ' ', 1]
-                acc.push(newEl)
-            }
-            // если значения одинаковые то строка не была изменена = возвращаем без знака
-            else if (areValuesSimilar(el, data2)) {
-                el.push(' ', 1)
-                acc.push(el)
-            } else
-                if (whichValueIsObject !== false) {
-                    const valueWithObject = whichValueIsObject(value, data2[key])
-                    // если по одинаковому ключу одно значение объект, а второе - нет, добавляем пустые строки перед ключом в это объекте, при этом сам ключ со знаком -
-                    const modifiedValue = addSpaces(valueWithObject)
-                    // console.log(modifiedValue)
-                    const newEl = valueWithObject === value ? [key, modifiedValue, '-', 1] : [key, modifiedValue, '+', 2]
-                    acc.push(newEl)
-
-                    // добавляем второй элемент из файла 2 со знаком +
-                    const data2Value = valueWithObject === value ? [key, data2[key], '+', 2] : [key, value, '-', 1]
-                    acc.push(data2Value)
+            if (valueFromData1 === valueFromData2) {
+                if (isObject(valueFromData1)) {
+                    newValue = addUnchangedStatus(valueFromData1)
+                } else {
+                    newValue = valueFromData1
                 }
-                else {
+                status = 'unchanged'
+            }
 
-                    // если значение по ключу не объекты то возвращаем значение из первоого файла с - и из второго со знаком +
-                    el.push('-', 1)
-                    acc.push(el)
-                    const similarKeyFromData2 = Object.entries(data2).find(([key2]) => key2 === key)
-                    similarKeyFromData2.push('+', 2)
-                    acc.push(similarKeyFromData2)
+            if (isObject(valueFromData1) && isObject(valueFromData2)) {
+                children = genDiff(valueFromData1, valueFromData2)
+                status = 'changed' // без знака
+            }
+
+            if ((valueFromData1 !== valueFromData2) && (!isObject(valueFromData1) || !isObject(valueFromData2))) {
+                if (isObject(valueFromData1)) {
+                    oldValue = addUnchangedStatus(valueFromData1)
+                    newValue = valueFromData2
+                } else if (isObject(valueFromData2)) {
+                    oldValue = valueFromData1
+                    newValue = addUnchangedStatus(valueFromData2)
+                } else {
+                    newValue = valueFromData2
+                    oldValue = valueFromData1
 
                 }
+                status = 'changed'
+            }
         } else {
-            // если ключи разные, то значит этой строки нет в файле 2, значит записываем строку со знаком -
-            if (typeof value === 'object') {
-                const modifiedValue = addSpaces(value)
-                const newEl = [key, modifiedValue, '-', 1]
-                acc.push(newEl)
-            } else {
-                el.push('-', 1)
-                acc.push(el)
+            if (keyInData1 && !keyInData2) { // удаленный ключ
+                status = 'removed'
+                if (isObject(data1[key])) {
+                    newValue = addUnchangedStatus(data1[key])
+                } else {
+                    newValue = data1[key]
+                }
+            }
+            if (!keyInData1 && keyInData2) { // добавленный ключ
+                status = 'added'
+                if (isObject(data2[key])) {
+                    newValue = addUnchangedStatus(data2[key])
+                } else {
+                    newValue = data2[key]
+                }
             }
         }
-        return acc
-    }, [])
 
-    // }
+        return {
+            ...(key !== undefined ? { key } : {}),
+            ...(status !== undefined ? { status } : {}),
+            ...(newValue !== undefined ? { newValue: newValue } : {}),
+            ...(oldValue !== undefined ? { oldValue: oldValue } : {}),
+            ...(children !== undefined ? { children } : {}),
+        }
+    })
 
-    // находим ключи и значения которых не было в файле 1, записываем с +
-    const missingInFirstFileKeys = Object.entries(data2)
-        .filter(([key]) => !(key in data1))
-        .reduce((acc, el) => {
-            const [key, value] = el
-            if (typeof value === 'object') {
-                const modifiedValue = addSpaces(value)
-                const newEl = [key, modifiedValue, '-', 1]
-                acc.push(newEl)
-            } else {
-                el.push('+', 2)
-                acc.push(el)
-            }
-            return acc
-        }, [])
-
-    const result = modifiedData
-        .concat(missingInFirstFileKeys)
-        .sort((a, b) => {
-            // сортировка сначала по алфавиту
-            if (a[0] < b[0]) return -1;
-            if (a[0] > b[0]) return 1;
-
-            // если имена одинаковые, то сначала файл 1 потом файл 2
-            return a[3] - b[3];
-        })
-        .reduce((acc, el) => {
-            const [key, value, sign] = el
-            const newEl = {}
-            const newKey = `${sign} ${key}`
-            newEl[newKey] = value
-            return { ...acc, ...newEl }
-        }, {})
-
-    // console.log(result)
-    return stringify(result, " ", 2)
+    return node
 }
 
 
