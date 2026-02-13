@@ -1,19 +1,31 @@
 const SIGNES = {
-    'added': '+ ',
-    'removed': '- ',
-    'unchanged': '  ',
-    'changed': '  ',
+    'added': '+',
+    'removed': '-',
+    'unchanged': ' ',
+    'changed': ' ',
 }
 
-const sortDiff = (data) => {
-    return data.sort((a, b) => {
-        // сортировка сначала по алфавиту
-        if (a[0] < b[0]) return -1;
-        if (a[0] > b[0]) return 1;
+const COMMENTS = {
+    oldValue: '# Старое значение',
+    newValue: '# Новое значение',
+    added: '# Добавлена',
+    deleted: '# Удалена',
+    empty: '# значения нет, но пробел после : есть',
+}
 
-        // // если имена одинаковые, то сначала файл 1 потом файл 2
-        // return a[3] - b[3];
-    })
+const getComment = (sign) => {
+    let comment
+    switch (sign) {
+        case '+':
+            comment = COMMENTS.added
+            break
+        case '-':
+            comment = COMMENTS.deleted
+            break
+        default:
+            comment = ''
+    }
+    return comment
 }
 
 function formatDiff(data) {
@@ -27,31 +39,39 @@ function formatDiff(data) {
         const indent = ' '.repeat(depth + 2)
         const innerIndent = ' '.repeat(depth + 4)
 
+        if (!Array.isArray(data)) {
+            console.error('Данные не являются массивом:', data);
+            return [];
+        }
+
         for (const { key, status, oldValue, newValue, children } of data) {
             const sign = SIGNES[status]
+            let comment = getComment(sign)
+            if (newValue === " ") {
+                comment = COMMENTS.empty
+            }
 
             if ((status === 'changed') && (children)) {
-                lines.push(`${indent}${sign}${key}: {`);
+                lines.push(`${indent}${sign} ${key}: { ${comment}`);
                 lines.push(...iter(children, depth + 4))
                 lines.push(`${innerIndent}}`);
             } else if (oldValue) {
                 if (Array.isArray(oldValue)) {
-                    lines.push(`${indent}- ${key}: {`);
+                    lines.push(`${indent}- ${key}: { ${COMMENTS.oldValue}`);
                     lines.push(...iter(oldValue, depth + 4))
                     lines.push(`${innerIndent}}`);
-                    lines.push(`${indent}+ ${key}: ${newValue}`);
+                    newValue === " " ? lines.push(`${indent}+ ${key}: ${newValue} ${COMMENTS.empty}`) : lines.push(`${indent}+ ${key}: ${newValue} ${COMMENTS.newValue}`);
                 } else {
-                    lines.push(`${indent}- ${key}: ${oldValue}`);
-                    lines.push(`${indent}+ ${key}: ${newValue}`);
+                    oldValue === " " ? lines.push(`${indent}- ${key}: ${oldValue} ${COMMENTS.empty}`) : lines.push(`${indent}- ${key}: ${oldValue} ${COMMENTS.oldValue}`);
+                    newValue === " " ? lines.push(`${indent}+ ${key}: ${newValue} ${COMMENTS.empty}`) : lines.push(`${indent}+ ${key}: ${newValue} ${COMMENTS.newValue}`);
                 }
             } else if (!oldValue && Array.isArray(newValue)) {
-                lines.push(`${indent}${sign}${key}: {`);
+                lines.push(`${indent}${sign} ${key}: { ${comment}`);
                 lines.push(...iter(newValue, depth + 4))
                 lines.push(`${innerIndent}}`);
             } else {
-                lines.push(`${indent}${sign}${key}: ${newValue}`);
+                lines.push(`${indent}${sign} ${key}: ${newValue} ${comment}`);
             }
-
         }
 
         // добавляем закрывающие скобки только в конце (для рекурсии они не нужны)

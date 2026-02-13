@@ -1,4 +1,5 @@
 import { formatDiff } from "./format.js"
+import parseData from "./parsers.js"
 // Создаем дерево изменений, где содержатся следующие данные:
 // - Ключи — имена ключей.
 // - Значения — объекты с полями:
@@ -109,7 +110,10 @@ function getDiff(data1, data2) {
 }
 
 
-function genDiff(data1, data2, format) {
+function genDiff(filePath1, filePath2, format) {
+    const data1 = parseData(filePath1)
+    const data2 = parseData(filePath2)
+
     const diffsNode = getDiff(data1, data2)
     let formattedDiff
 
