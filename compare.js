@@ -1,12 +1,12 @@
 import { formatDiff } from "./format.js"
 import parseData from "./parsers.js"
-// Создаем дерево изменений, где содержатся следующие данные:
-// - Ключи — имена ключей.
-// - Значения — объекты с полями:
-//      status ('unchanged' (без знака), 'added' (знак +), 'removed' (знак -), 'changed' (без знака, так как есть children и знаки внутри дочерних элементов))
-//      value (новое значение)
-//      oldValue (старое значение, если есть)
-//      children (для вложенных объектов если есть, если нет, то поле отсутствует)
+
+// Логика работы: сначала создаем дерево изменений (массив), где содержатся следующие данные в виде объектов:
+// - keys (имена ключей)
+// - status ('unchanged' (без знака), 'added' (знак +), 'removed' (знак -), 'changed' (без знака, так как есть children и знаки ставятся внутри дочерних элементов))
+// - newValue (новое значение)
+// - oldValue (старое значение, если есть)
+// - children (для вложенных объектов если есть, если нет, то поле отсутствует)
 
 // добавление статуса uncganged, чтобы отобразить пробелы (без знака) перед ключом
 const addUnchangedStatus = (data) => {
@@ -32,10 +32,10 @@ function isObject(data) {
 
 // генерируем дерево изменений
 function getDiff(data1, data2) {
-
     if (!isObject(data1) || !isObject(data2)) {
         return null
     }
+
     const allKeys = Array.from(new Set([...Object.keys(data1), ...Object.keys(data2)]))
 
     const node = allKeys.map((key) => {
