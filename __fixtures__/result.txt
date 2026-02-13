@@ -5,13 +5,13 @@
       - setting2: 200 # Удалена
       - setting3: true # Старое значение
       + setting3: null # Новое значение
-      + setting4: blah blah
-      + setting5: {
+      + setting4: blah blah # Добавлена
+      + setting5: { # Добавлена
             key5: value5
         }
         setting6: {
             doge: {
-              - wow: # значения нет, но пробел после : есть
+              - wow:  # значения нет, но пробел после : есть
               + wow: so much # Новое значение
             }
             key: value

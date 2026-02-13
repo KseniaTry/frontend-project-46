@@ -10,7 +10,7 @@ const COMMENTS = {
     newValue: ' # Новое значение',
     added: ' # Добавлена',
     deleted: ' # Удалена',
-    empty: ' # значения нет, но пробел после : есть',
+    empty: '# значения нет, но пробел после : есть',
 }
 
 const getComment = (sign) => {
@@ -60,10 +60,10 @@ function formatDiff(data) {
                     lines.push(`${indent}- ${key}: {${COMMENTS.oldValue}`);
                     lines.push(...iter(oldValue, depth + 4))
                     lines.push(`${innerIndent}}`);
-                    newValue === " " ? lines.push(`${indent}+ ${key}: ${newValue}${COMMENTS.empty}`) : lines.push(`${indent}+ ${key}: ${newValue} ${COMMENTS.newValue}`);
+                    newValue === " " ? lines.push(`${indent}+ ${key}: ${newValue}${COMMENTS.empty}`) : lines.push(`${indent}+ ${key}: ${newValue}${COMMENTS.newValue}`);
                 } else {
-                    oldValue === " " ? lines.push(`${indent}- ${key}: ${oldValue}${COMMENTS.empty}`) : lines.push(`${indent}- ${key}: ${oldValue} ${COMMENTS.oldValue}`);
-                    newValue === " " ? lines.push(`${indent}+ ${key}: ${newValue}${COMMENTS.empty}`) : lines.push(`${indent}+ ${key}: ${newValue} ${COMMENTS.newValue}`);
+                    oldValue === " " ? lines.push(`${indent}- ${key}: ${oldValue}${COMMENTS.empty}`) : lines.push(`${indent}- ${key}: ${oldValue}${COMMENTS.oldValue}`);
+                    newValue === " " ? lines.push(`${indent}+ ${key}: ${newValue}${COMMENTS.empty}`) : lines.push(`${indent}+ ${key}: ${newValue}${COMMENTS.newValue}`);
                 }
             } else if (!oldValue && Array.isArray(newValue)) {
                 lines.push(`${indent}${sign} ${key}: {${comment}`);
