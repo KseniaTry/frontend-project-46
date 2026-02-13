@@ -5,7 +5,7 @@
       - setting2: 200 # Удалена
       - setting3: true # Старое значение
       + setting3: null # Новое значение
-      + setting4: blah blah 
+      + setting4: blah blah
       + setting5: {
             key5: value5
         }
