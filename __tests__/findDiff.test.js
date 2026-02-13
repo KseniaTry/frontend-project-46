@@ -14,6 +14,7 @@ const fileJson2 = getFixturePath('file2.json')
 const fileYaml1 = getFixturePath('file1.yaml')
 const fileYaml2 = getFixturePath('file2.yaml')
 const result = readFileSync(getFixturePath('result.txt'), 'utf-8')
+
 test('test simple json files find diffs', () => {
     expect(genDiff(fileJson1, fileJson2, 'stylish')).toEqual(result)
 })
