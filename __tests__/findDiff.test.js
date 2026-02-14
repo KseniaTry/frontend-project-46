@@ -13,12 +13,21 @@ const fileJson1 = getFixturePath('file1.json')
 const fileJson2 = getFixturePath('file2.json')
 const fileYaml1 = getFixturePath('file1.yaml')
 const fileYaml2 = getFixturePath('file2.yaml')
-const result = readFileSync(getFixturePath('result.txt'), 'utf-8')
+const stylishResult = readFileSync(getFixturePath('stylish-result.txt'), 'utf-8')
+const plainResult = readFileSync(getFixturePath('plain-result.txt'), 'utf-8')
 
-test('test simple json files find diffs', () => {
-    expect(genDiff(fileJson1, fileJson2, 'stylish')).toEqual(result)
+test('test json files find diffs (stylish format)', () => {
+    expect(genDiff(fileJson1, fileJson2, 'stylish')).toEqual(stylishResult)
 })
 
-test('test simple yaml files find diffs', () => {
-    expect(genDiff(fileYaml1, fileYaml2, 'stylish')).toEqual(result)
+test('test yaml files find diffs (stylish format)', () => {
+    expect(genDiff(fileYaml1, fileYaml2, 'stylish')).toEqual(stylishResult)
+})
+
+test('test json files find diffs (plain format)', () => {
+    expect(genDiff(fileJson1, fileJson2, 'stylish')).toEqual(plainResult)
+})
+
+test('test yaml files find diffs (plain format)', () => {
+    expect(genDiff(fileYaml1, fileYaml2, 'stylish')).toEqual(plainResult)
 })
