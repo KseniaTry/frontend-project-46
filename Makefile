@@ -8,4 +8,4 @@ test:
 	npm test
 
 show:
-	node gendiff.js file1.json file2.json
+	node gendiff.js file1.yaml file2.yaml
