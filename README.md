@@ -7,7 +7,7 @@
 
 Пример работы пакета на файлах .yaml:  
 Простые файлы: https://asciinema.org/a/DUUovf2RXtPp3Fq8  
-Сложные файлы с вложенной структурой: 
+Сложные файлы с вложенной структурой: https://asciinema.org/a/gYQC4r7VW2qCfN9t  
 
 Пример работы пакета на файлах .json:
 Простые файлы:  https://asciinema.org/a/SOhfa4T6kGEjq53j  
