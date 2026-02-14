@@ -28,7 +28,7 @@ const getComment = (sign) => {
     return comment
 }
 
-function formatDiff(data) {
+function formatDiffInStylish(data) {
     const iter = (data, depth) => {
         const lines = [];
 
@@ -85,4 +85,4 @@ function formatDiff(data) {
     return iter(data, 0).join('\n');
 }
 
-export { formatDiff }
+export { formatDiffInStylish }

@@ -1,4 +1,4 @@
-import { formatDiff } from "./format.js"
+import { formatDiffInStylish } from "./formatters/stylish.js"
 import parseData from "./parsers.js"
 
 // Логика работы: сначала создаем дерево изменений (массив), где содержатся следующие данные в виде объектов:
@@ -119,7 +119,7 @@ function genDiff(filePath1, filePath2, format) {
 
     switch (format) {
         case 'stylish':
-            formattedDiff = formatDiff(diffsNode)
+            formattedDiff = formatDiffInStylish(diffsNode)
             break;
     }
 

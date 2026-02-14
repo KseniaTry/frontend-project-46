@@ -1,6 +1,5 @@
 import { Command } from 'commander';
-import { genDiff } from './compare.js';
-
+import { genDiff } from './modules/compare.js';
 
 const program = new Command();
 

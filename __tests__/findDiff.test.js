@@ -1,4 +1,4 @@
-import { genDiff } from "../compare.js"
+import { genDiff } from '../modules/compare.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'path';
