@@ -25,9 +25,9 @@ test('test yaml files find diffs (stylish format)', () => {
 })
 
 test('test json files find diffs (plain format)', () => {
-    expect(genDiff(fileJson1, fileJson2, 'stylish')).toEqual(plainResult)
+    expect(genDiff(fileJson1, fileJson2, 'plain')).toEqual(plainResult)
 })
 
 test('test yaml files find diffs (plain format)', () => {
-    expect(genDiff(fileYaml1, fileYaml2, 'stylish')).toEqual(plainResult)
+    expect(genDiff(fileYaml1, fileYaml2, 'plain')).toEqual(plainResult)
 })
