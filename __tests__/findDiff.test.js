@@ -1,4 +1,4 @@
-import { genDiff } from '../modules/compare.js';
+import { genDiff } from '../modules/formatters/index.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'path';
@@ -15,7 +15,6 @@ const fileYaml1 = getFixturePath('file1.yaml')
 const fileYaml2 = getFixturePath('file2.yaml')
 const stylishResult = readFileSync(getFixturePath('stylish-result.txt'), 'utf-8')
 const plainResult = readFileSync(getFixturePath('plain-result.txt'), 'utf-8')
-const stylishResult = readFileSync(getFixturePath('stylish-result.txt'), 'utf-8')
 const jsonResult = readFileSync(getFixturePath('json-result.json'), 'utf-8')
 
 test('test json files find diffs (stylish format)', () => {

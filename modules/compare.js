@@ -1,7 +1,3 @@
-import { formatDiffInStylish } from "./formatters/stylish.js"
-import { formatDiffInPlain } from "./formatters/plain.js"
-import parseData from "./parsers.js"
-
 // Логика работы: сначала создаем дерево изменений (массив), где содержатся следующие данные в виде объектов:
 // - keys (имена ключей)
 // - status ('unchanged' (без знака), 'added' (знак +), 'removed' (знак -), 'changed' (без знака, так как есть children и знаки ставятся внутри дочерних элементов))
@@ -110,25 +106,4 @@ function getDiff(data1, data2) {
     return node.sort((a, b) => a.key.localeCompare(b.key));
 }
 
-
-function genDiff(filePath1, filePath2, format) {
-    const data1 = parseData(filePath1)
-    const data2 = parseData(filePath2)
-
-    const diffsNode = getDiff(data1, data2)
-    let formattedDiff
-
-    switch (format) {
-        case 'stylish':
-            formattedDiff = formatDiffInStylish(diffsNode)
-            break
-        case 'plain':
-            formattedDiff = formatDiffInPlain(diffsNode)
-            break
-    }
-
-    return formattedDiff
-}
-
-
-export { genDiff }
+export { getDiff }
