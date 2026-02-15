@@ -3,13 +3,13 @@ import { genDiff } from './modules/compare.js';
 
 const program = new Command();
 
-const changeFormat = (type) => {
-  if (type === 'format') {
-    console.log(`now is type: ${type}`);
-  } else {
-    console.log(`Format selected: ${type}`);
-  }
-};
+// const changeFormat = (type) => {
+//   if (type === 'format') {
+//     console.log(`now is type: ${type}`);
+//   } else {
+//     console.log(`Format selected: ${type}`);
+//   }
+// };
 
 program
   .name('gendiff')
@@ -19,7 +19,7 @@ program
   .option('-f, --format [type]', 'output format', 'stylish')
   .action((filePath1, filePath2) => {
     const options = program.opts();
-    changeFormat(options.format);
+    // changeFormat(options.format);
     const diff = genDiff(filePath1, filePath2, options.format)
     console.log(diff)
   });
