@@ -1,7 +1,6 @@
 import { formatDiffInStylish } from "./stylish.js"
-
-
 import { formatDiffInPlain } from "./plain.js"
+import { formatDiffInJson } from "./json.js"
 import parseData from "../parsers.js"
 import { getDiff } from "../compare.js"
 
@@ -20,7 +19,7 @@ function genDiff(filePath1, filePath2, format) {
             formattedDiff = formatDiffInPlain(diffsNode)
             break
         case 'json':
-            formattedDiff = formatDiffInPlain(diffsNode)
+            formattedDiff = JSON.stringify(formatDiffInJson(diffsNode), null, 2)
             break
     }
 
