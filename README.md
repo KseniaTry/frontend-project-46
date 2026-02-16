@@ -3,7 +3,7 @@
 
 [![test-gendiff](https://github.com/KseniaTry/frontend-project-46/actions/workflows/tests.yml/badge.svg)](https://github.com/KseniaTry/frontend-project-46/actions/workflows/tests.yml)
 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=KseniaTry_frontend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=KseniaTry_frontend-project-46)  
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=KseniaTry_frontend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=KseniaTry_frontend-project-46)
 
 Пакет gendiff.js позволяет получить различия между двумя файлами json и (или) jaml в разных форматах:  
 - stylish (по умолчанию)  
