@@ -60,10 +60,10 @@ function formatDiffInStylish(data) {
                     lines.push(`${indent}- ${key}: {`);
                     lines.push(...iter(oldValue, depth + 4))
                     lines.push(`${innerIndent}}`);
-                    newValue === " " ? lines.push(`${indent}+ ${key}: ${newValue}`) : lines.push(`${indent}+ ${key}: ${newValue}`);
+                    newValue === " " ? lines.push(`${indent}+ ${key}: `) : lines.push(`${indent}+ ${key}: ${newValue}`);
                 } else {
-                    oldValue === " " ? lines.push(`${indent}- ${key}: ${oldValue}`) : lines.push(`${indent}- ${key}: ${oldValue}`);
-                    newValue === " " ? lines.push(`${indent}+ ${key}: ${newValue}`) : lines.push(`${indent}+ ${key}: ${newValue}`);
+                    oldValue === " " ? lines.push(`${indent}- ${key}: `) : lines.push(`${indent}- ${key}: ${oldValue}`);
+                    newValue === " " ? lines.push(`${indent}+ ${key}: `) : lines.push(`${indent}+ ${key}: ${newValue}`);
                 }
             } else if (!oldValue && Array.isArray(newValue)) {
                 lines.push(`${indent}${sign} ${key}: {`);
