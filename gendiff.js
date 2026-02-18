@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { genDiff } from './modules/formatters/index.js';
+import { genDiff } from './src/formatters/index.js';
 
 const program = new Command();
 
