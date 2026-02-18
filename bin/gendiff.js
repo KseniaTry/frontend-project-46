@@ -1,15 +1,8 @@
+#!/usr/bin/env node
 import { Command } from 'commander';
-import { genDiff } from './src/formatters/index.js';
+import { genDiff } from '../src/formatters/index.js';
 
 const program = new Command();
-
-// const changeFormat = (type) => {
-//   if (type === 'format') {
-//     console.log(`now is type: ${type}`);
-//   } else {
-//     console.log(`Format selected: ${type}`);
-//   }
-// };
 
 program
   .name('gendiff')
@@ -19,7 +12,6 @@ program
   .option('-f, --format [type]', 'output format', 'stylish')
   .action((filePath1, filePath2) => {
     const options = program.opts();
-    // changeFormat(options.format);
     const diff = genDiff(filePath1, filePath2, options.format)
     console.log(diff)
   });

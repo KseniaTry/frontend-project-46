@@ -14,6 +14,9 @@
   "author": "Ksenia Tryapitsyna",
   "type": "module",
   "main": "gendiff.js",
+  "bin": {
+    "gendiff": "./bin/gendiff.js"
+  },
   "scripts": {
     "test": "jest"
   },
