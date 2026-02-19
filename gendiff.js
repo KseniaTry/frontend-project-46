@@ -20,4 +20,4 @@ const run = () => {
   program.parse(process.argv);
 }
 
-export { run }
+export default run
