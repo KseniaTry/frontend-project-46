@@ -27,18 +27,22 @@ function formatDiffInStylish(data) {
             const sign = SIGNES[status]
 
             if ((status === 'changed') && (children)) {
-                lines.push(`${indent}${sign} ${key}: {`);
+                lines.push(`${indent}${sign} ${key}: {`)
                 lines.push(...iter(children, depth + 4))
-                lines.push(`${innerIndent}}`);
-            } else if ("oldValue" in el) {
+                lines.push(`${innerIndent}}`)
+            } else if ('oldValue' in el) {
                 if (Array.isArray(oldValue)) {
+                    // const valueWithArray = Array.isArray(oldValue) ? oldValue : newValue
                     lines.push(`${indent}- ${key}: {`);
                     lines.push(...iter(oldValue, depth + 4))
-                    lines.push(`${innerIndent}}`);
+                    lines.push(`${innerIndent}}`)
                     newValue === " " ? lines.push(`${indent}+ ${key}: `) : lines.push(`${indent}+ ${key}: ${newValue}`);
+                } else if (Array.isArray(newValue)) {
+                    oldValue === " " ? lines.push(`${indent}- ${key}: `) : lines.push(`${indent}- ${key}: ${oldValue}`);
+                    lines.push(`${indent}+ ${key}: {`);
+                    lines.push(...iter(newValue, depth + 4))
+                    lines.push(`${innerIndent}}`)
                 } else {
-                    console.log(oldValue)
-                    console.log(newValue)
                     oldValue === " " ? lines.push(`${indent}- ${key}: `) : lines.push(`${indent}- ${key}: ${oldValue}`);
                     newValue === " " ? lines.push(`${indent}+ ${key}: `) : lines.push(`${indent}+ ${key}: ${newValue}`);
                 }
