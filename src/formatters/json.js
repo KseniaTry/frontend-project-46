@@ -9,13 +9,14 @@ function formatDiffInJson(data) {
         if (status === 'changed' && (children)) {
             acc[key] = formatDiffInJson(children)
         } else {
-            acc[key] = Array.isArray(newValue) ? formatDiffInJson(newValue) : newValue
+            const modifiedValue = newValue === " " ? "" : newValue
+            acc[key] = Array.isArray(newValue) ? formatDiffInJson(newValue) : modifiedValue
         }
 
         return acc
 
     }, {})
-    // console.dir(result, { depth: null, colors: true });
+
     return result
 }
 

@@ -1,8 +1,6 @@
 const modifyValue = (value) => {
     value = value === ' ' ? '' : value
-
     const modifyedValue = typeof value === 'string' ? `'${value}'` : value
-
     return Array.isArray(value) ? '[complex value]' : `${modifyedValue}`
 }
 
@@ -16,7 +14,8 @@ function formatDiffInPlain(data) {
 
         let lines = []
 
-        for (const { key, status, oldValue, newValue, children } of data) {
+        for (const el of data) {
+            const { key, status, oldValue, newValue, children } = el
             const newPath = path ? `${path}.${key}` : key
 
             if (status === 'removed') {
@@ -31,7 +30,7 @@ function formatDiffInPlain(data) {
                 lines.push(...iter(children, newPath))
             }
 
-            if (oldValue) {
+            if ('oldValue' in el) {
                 lines.push(`Property '${newPath}' was updated. From ${modifyValue(oldValue)} to ${modifyValue(newValue)}`)
             }
         }

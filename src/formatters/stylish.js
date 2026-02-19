@@ -5,29 +5,6 @@ const SIGNES = {
     'changed': ' ',
 }
 
-// const COMMENTS = {
-//     oldValue: ' # Старое значение',
-//     newValue: ' # Новое значение',
-//     added: ' # Добавлена',
-//     deleted: ' # Удалена',
-//     empty: '# значения нет, но пробел после : есть',
-// }
-
-// const getComment = (sign) => {
-//     let comment
-//     switch (sign) {
-//         case '+':
-//             comment = COMMENTS.added
-//             break
-//         case '-':
-//             comment = COMMENTS.deleted
-//             break
-//         default:
-//             comment = ''
-//     }
-//     return comment
-// }
-
 function formatDiffInStylish(data) {
     const iter = (data, depth) => {
         const lines = [];
@@ -36,6 +13,7 @@ function formatDiffInStylish(data) {
         if (depth === 0) {
             lines.push('{');
         }
+
         const indent = ' '.repeat(depth + 2)
         const innerIndent = ' '.repeat(depth + 4)
 
@@ -44,24 +22,23 @@ function formatDiffInStylish(data) {
             return [];
         }
 
-        for (const { key, status, oldValue, newValue, children } of data) {
+        for (const el of data) {
+            const { key, status, oldValue, newValue, children } = el
             const sign = SIGNES[status]
-            // let comment = getComment(sign)
-            // if (newValue === " ") {
-            //     comment = COMMENTS.empty
-            // }
 
             if ((status === 'changed') && (children)) {
                 lines.push(`${indent}${sign} ${key}: {`);
                 lines.push(...iter(children, depth + 4))
                 lines.push(`${innerIndent}}`);
-            } else if (oldValue) {
+            } else if ("oldValue" in el) {
                 if (Array.isArray(oldValue)) {
                     lines.push(`${indent}- ${key}: {`);
                     lines.push(...iter(oldValue, depth + 4))
                     lines.push(`${innerIndent}}`);
                     newValue === " " ? lines.push(`${indent}+ ${key}: `) : lines.push(`${indent}+ ${key}: ${newValue}`);
                 } else {
+                    console.log(oldValue)
+                    console.log(newValue)
                     oldValue === " " ? lines.push(`${indent}- ${key}: `) : lines.push(`${indent}- ${key}: ${oldValue}`);
                     newValue === " " ? lines.push(`${indent}+ ${key}: `) : lines.push(`${indent}+ ${key}: ${newValue}`);
                 }
