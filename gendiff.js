@@ -13,6 +13,12 @@ const run = () => {
     .option('-f, --format [type]', 'output format', 'stylish')
     .action((filePath1, filePath2) => {
       const options = program.opts();
+
+      if (!filePath1 || !filePath2) {
+        console.error('Error: missing required argument(s) filePath1 and/or filePath2');
+        process.exit(1);
+      }
+
       const diff = genDiff(filePath1, filePath2, options.format)
       console.log(diff)
     });
