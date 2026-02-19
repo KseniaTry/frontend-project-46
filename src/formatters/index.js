@@ -5,6 +5,13 @@ import parseData from "../parsers.js"
 import { getDiff } from "../compare.js"
 
 function genDiff(filePath1, filePath2, format) {
+    if (!filePath1) {
+        throw new Error("Missing required argument: filePath1");
+    }
+    if (!filePath2) {
+        throw new Error("Missing required argument: filePath2");
+    }
+
     const data1 = parseData(filePath1)
     const data2 = parseData(filePath2)
 
