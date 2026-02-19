@@ -19,3 +19,7 @@ group3:
     id:
       number: 45
   fee: 100500
+group4:
+  default: ''
+  foo: null
+  isNested: 'none'
