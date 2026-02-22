@@ -26,4 +26,4 @@ function genDiff(filePath1, filePath2, format) {
     return formattedDiff
 }
 
-export { genDiff }
+export default genDiff 
