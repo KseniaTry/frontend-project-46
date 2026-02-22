@@ -1,12 +1,12 @@
-import { formatDiffInStylish } from "./stylish.js"
-import { formatDiffInPlain } from "./plain.js"
-import { formatDiffInJson } from "./json.js"
-import parseData from "../parsers.js"
-import { getDiff } from "../compare.js"
+import { formatDiffInStylish } from './stylish.js'
+import { formatDiffInPlain } from './plain.js'
+import { formatDiffInJson } from './json.js'
+import parseData from '../parsers.js'
+import { getDiff } from '../compare.js'
 
 function genDiff(filePath1, filePath2, format) {
   if (!filePath1 || !filePath2) {
-    return '';
+    return ''
   }
 
   const data1 = parseData(filePath1)
@@ -33,4 +33,4 @@ function genDiff(filePath1, filePath2, format) {
   return formattedDiff
 }
 
-export default genDiff 
+export default genDiff

@@ -15,16 +15,15 @@ const addUnchangedStatus = (data) => {
     return {
       key,
       newValue: value,
-      status: 'unchanged'
+      status: 'unchanged',
     }
-
   })
   return modifiedData
 }
 
 // проверка являются ли объектом данные
 function isObject(data) {
-  return data !== null && typeof data === 'object' && !Array.isArray(data);
+  return data !== null && typeof data === 'object' && !Array.isArray(data)
 }
 
 // генерируем дерево изменений
@@ -44,13 +43,14 @@ function getDiff(data1, data2) {
     let children
 
     if (keyInData1 === keyInData2) {
-      const valueFromData1 = data1[key] === "" ? " " : data1[key]
-      const valueFromData2 = data2[key] === "" ? " " : data2[key]
+      const valueFromData1 = data1[key] === '' ? ' ' : data1[key]
+      const valueFromData2 = data2[key] === '' ? ' ' : data2[key]
 
       if (valueFromData1 === valueFromData2) {
         if (isObject(valueFromData1)) {
           newValue = addUnchangedStatus(valueFromData1)
-        } else {
+        }
+        else {
           newValue = valueFromData1
         }
         status = 'unchanged'
@@ -65,22 +65,25 @@ function getDiff(data1, data2) {
         if (isObject(valueFromData1)) {
           oldValue = addUnchangedStatus(valueFromData1)
           newValue = valueFromData2
-        } else if (isObject(valueFromData2)) {
+        }
+        else if (isObject(valueFromData2)) {
           oldValue = valueFromData1
           newValue = addUnchangedStatus(valueFromData2)
-        } else {
+        }
+        else {
           newValue = valueFromData2
           oldValue = valueFromData1
-
         }
         status = 'changed'
       }
-    } else {
+    }
+    else {
       if (keyInData1 && !keyInData2) { // удаленный ключ
         status = 'removed'
         if (isObject(data1[key])) {
           newValue = addUnchangedStatus(data1[key])
-        } else {
+        }
+        else {
           newValue = data1[key]
         }
       }
@@ -88,7 +91,8 @@ function getDiff(data1, data2) {
         status = 'added'
         if (isObject(data2[key])) {
           newValue = addUnchangedStatus(data2[key])
-        } else {
+        }
+        else {
           newValue = data2[key]
         }
       }
@@ -103,7 +107,7 @@ function getDiff(data1, data2) {
     }
   })
 
-  return node.sort((a, b) => a.key.localeCompare(b.key));
+  return node.sort((a, b) => a.key.localeCompare(b.key))
 }
 
 export { getDiff }

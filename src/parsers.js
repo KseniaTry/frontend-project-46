@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync } from 'fs'
 import YAML from 'yaml'
 
 const getFileType = path => path.toLowerCase().trim().split('.').at(-1)

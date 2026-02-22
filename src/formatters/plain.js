@@ -6,10 +6,9 @@ const modifyValue = (value) => {
 
 function formatDiffInPlain(data) {
   const iter = (data, path) => {
-
     if (!Array.isArray(data)) {
-      console.error('Данные не являются массивом:', data);
-      return [];
+      console.error('Данные не являются массивом:', data)
+      return []
     }
 
     let lines = []
@@ -39,6 +38,5 @@ function formatDiffInPlain(data) {
   }
   return iter(data, '', 0).join('\n')
 }
-
 
 export { formatDiffInPlain }

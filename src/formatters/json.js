@@ -3,18 +3,18 @@ function formatDiffInJson(data) {
     const { key, status, newValue, children } = el
 
     if (status === 'removed') {
-      return acc;
+      return acc
     }
 
     if (status === 'changed' && (children)) {
       acc[key] = formatDiffInJson(children)
-    } else {
-      const modifiedValue = newValue === " " ? "" : newValue
+    }
+    else {
+      const modifiedValue = newValue === ' ' ? '' : newValue
       acc[key] = Array.isArray(newValue) ? formatDiffInJson(newValue) : modifiedValue
     }
 
     return acc
-
   }, {})
 
   return result
