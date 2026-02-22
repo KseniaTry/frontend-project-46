@@ -1,23 +1,23 @@
 function formatDiffInJson(data) {
-    const result = data.reduce((acc, el) => {
-        const { key, status, newValue, children } = el
+  const result = data.reduce((acc, el) => {
+    const { key, status, newValue, children } = el
 
-        if (status === 'removed') {
-            return acc;
-        }
+    if (status === 'removed') {
+      return acc;
+    }
 
-        if (status === 'changed' && (children)) {
-            acc[key] = formatDiffInJson(children)
-        } else {
-            const modifiedValue = newValue === " " ? "" : newValue
-            acc[key] = Array.isArray(newValue) ? formatDiffInJson(newValue) : modifiedValue
-        }
+    if (status === 'changed' && (children)) {
+      acc[key] = formatDiffInJson(children)
+    } else {
+      const modifiedValue = newValue === " " ? "" : newValue
+      acc[key] = Array.isArray(newValue) ? formatDiffInJson(newValue) : modifiedValue
+    }
 
-        return acc
+    return acc
 
-    }, {})
+  }, {})
 
-    return result
+  return result
 }
 
 export { formatDiffInJson }
