@@ -25,6 +25,9 @@ function genDiff(filePath1, filePath2, format) {
         case 'json':
             formattedDiff = JSON.stringify(formatDiffInJson(diffsNode), null, 2)
             break
+        default:
+            formattedDiff = formatDiffInStylish(diffsNode)
+            break
     }
 
     return formattedDiff
