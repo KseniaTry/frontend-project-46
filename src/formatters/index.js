@@ -6,8 +6,7 @@ import { getDiff } from '../compare.js'
 
 function genDiff(filePath1, filePath2, format) {
   if (!filePath1 || !filePath2) {
-    console.log('You need to specify two paths for the package to work')
-    return ''
+    throw new Error('You need to specify two paths for the package to work')
   }
 
   const data1 = parseData(filePath1)

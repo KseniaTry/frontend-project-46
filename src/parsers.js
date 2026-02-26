@@ -20,8 +20,7 @@ const parseData = (filePath) => {
       break
     default:
       if (!filePath) {
-        console.log('File should be in json/ yaml/ yml format only')
-        return ''
+        throw new Error('File should be in json/ yaml/ yml format only')
       }
   }
   return parsedData
