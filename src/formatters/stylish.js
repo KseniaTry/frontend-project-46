@@ -18,8 +18,7 @@ function formatDiffInStylish(data) {
     const innerIndent = ' '.repeat(depth + 4)
 
     if (!Array.isArray(data)) {
-      console.error('Данные не являются массивом:', data)
-      return []
+      throw new Error(`data ${data} is not Array`)
     }
 
     for (const el of data) {
