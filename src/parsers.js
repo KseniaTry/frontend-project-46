@@ -18,6 +18,11 @@ const parseData = (filePath) => {
     case 'json':
       parsedData = JSON.parse(data)
       break
+    default:
+      if (!filePath) {
+        console.log('File should be in json/ yaml/ yml format only')
+        return ''
+      }
   }
   return parsedData
 }
