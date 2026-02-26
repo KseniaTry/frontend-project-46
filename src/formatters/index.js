@@ -8,7 +8,7 @@ const FORMATS = ['stylish', 'plain', 'json']
 
 function genDiff(filePath1, filePath2, format) {
   if (!FORMATS.includes(format)) {
-    throw new Error('Format should be "stylish", "plain", "json" only. If the format is not specified, the default value is "stylish"')
+    console.log('Format should be "stylish", "plain", "json" only. If the format is not specified, the default value is "stylish"')
   }
 
   const data1 = parseData(filePath1)
