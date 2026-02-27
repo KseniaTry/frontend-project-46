@@ -24,12 +24,12 @@ function genDiff(filePath1, filePath2, format) {
       formattedDiff = JSON.stringify(formatDiffInJson(diffsNode), null, 2)
       break
     default:
-      if (!FORMATS.includes(format)) {
-        console.log('Format should be "stylish", "plain", "json" only. If the format is not specified, the default value is "stylish"')
-      }
-      else {
-        formattedDiff = formatDiffInStylish(diffsNode)
-      }
+      // if (!FORMATS.includes(format)) {
+      //   console.log('Format should be "stylish", "plain", "json" only. If the format is not specified, the default value is "stylish"')
+      // }
+      // else {
+      formattedDiff = formatDiffInStylish(diffsNode)
+    // }
   }
 
   return formattedDiff
