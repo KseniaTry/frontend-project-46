@@ -26,7 +26,6 @@ function genDiff(filePath1, filePath2, format) {
     default:
       if (!FORMATS.includes(format)) {
         console.log('Format should be "stylish", "plain", "json" only. If the format is not specified, the default value is "stylish"')
-        formattedDiff = ""
       } else {
         formattedDiff = formatDiffInStylish(diffsNode)
       }
