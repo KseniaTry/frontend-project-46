@@ -4,7 +4,7 @@ import { formatDiffInJson } from './json.js'
 import parseData from '../parsers.js'
 import { getDiff } from '../compare.js'
 
-const FORMATS = ['stylish', 'plain', 'json', '']
+const FORMATS = ['stylish', 'plain', 'json']
 
 function genDiff(filePath1, filePath2, format = 'stylish') {
   if (!FORMATS.includes(format)) {
