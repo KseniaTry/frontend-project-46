@@ -4,7 +4,7 @@ import { formatDiffInJson } from './json.js'
 import parseData from '../parsers.js'
 import { getDiff } from '../compare.js'
 
-const FORMATS = ['stylish', 'plain', 'json', '']
+const FORMATS = ['stylish', 'plain', 'json']
 
 function genDiff(filePath1, filePath2, format) {
   const data1 = parseData(filePath1)
@@ -26,7 +26,8 @@ function genDiff(filePath1, filePath2, format) {
     default:
       if (!FORMATS.includes(format)) {
         console.log('Format should be "stylish", "plain", "json" only. If the format is not specified, the default value is "stylish"')
-      } else {
+      }
+      else {
         formattedDiff = formatDiffInStylish(diffsNode)
       }
   }
